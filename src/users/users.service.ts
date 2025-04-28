@@ -3,7 +3,7 @@ import { User } from './interfaces';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [{ id: '1', name: 'John Doe', email: 'john@gmail.com', role: 'INTERN' }];
+  private users: User[] = [{ id: '1', name: 'John Doe', email: 'john@gmail.com', role: 'INTERN' }];
 
   findAll() {
     return this.users;
@@ -21,10 +21,20 @@ export class UsersService {
     this.users.push(newUser);
     return newUser;
   }
-  updateOne(user: User) {
+  updateOne(id: string, user: User) {
+    const updatedUsers = this.users.map((currUser) => {
+      if (currUser.id === id) {
+        return { ...currUser, ...user };
+      }
+      return currUser;
+    });
+
+    this.users = updatedUsers;
     return { ...user };
   }
   deleteOne(id: string) {
-    return { id };
+    const filteredUsers = this.users.filter((user) => user.id !== id);
+    this.users = filteredUsers;
+    return { deleted: true, users: this.users };
   }
 }

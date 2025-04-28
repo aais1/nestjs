@@ -34,7 +34,7 @@ export class UsersController {
 
   @Patch(':id') //will update the user with id and req will also include the body that will contain user
   updateOne(@Param('id') id: string, @Body() user: User) {
-    return this.userService.updateOne(user);
+    return this.userService.updateOne(id, user);
   }
 
   @Delete(':id')
